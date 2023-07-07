@@ -16,10 +16,18 @@ group :development, :test do
   gem 'brakeman', '~> 6.0', require: false
   gem 'debug', platforms: %i[mri mingw x64_mingw]
 
+  gem 'factory_bot_rails', '~> 6.2'
+  gem 'rspec-mocks', '~> 3.12'
+  gem 'rspec-rails', '~> 6.0'
+
   gem 'rubocop', '~> 1.51', require: false
   gem 'rubocop-config-timedia', github: 'timedia/styleguide', glob: 'ruby/**/*.gemspec', require: false
   gem 'rubocop-factory_bot', '~> 2.23', require: false
   gem 'rubocop-performance', '~> 1.18', require: false
   gem 'rubocop-rails', '~> 2.20', require: false
   gem 'rubocop-rspec', '~> 2.22', require: false
+end
+
+group :development do
+  gem 'rspec-daemon', '~> 0.1', require: false
 end
