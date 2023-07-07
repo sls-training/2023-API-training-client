@@ -10,6 +10,15 @@ GIT
       rubocop-rails (>= 2.14.0)
       rubocop-rspec (>= 2.22.0)
 
+GIT
+  remote: https://github.com/tompng/katakata_irb.git
+  revision: 2ef74ede1e50544c27cad95731cdb5b5aa1f47fb
+  specs:
+    katakata_irb (0.1.9)
+      irb (>= 1.4.0)
+      rbs
+      reline (>= 0.3.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -250,6 +259,7 @@ DEPENDENCIES
   brakeman (~> 6.0)
   debug
   factory_bot_rails (~> 6.2)
+  katakata_irb!
   pg (~> 1.5)
   puma (~> 6.3)
   rails (~> 7.0.6)
