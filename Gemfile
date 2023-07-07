@@ -15,6 +15,7 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 group :development, :test do
   gem 'brakeman', '~> 6.0', require: false
   gem 'debug', platforms: %i[mri mingw x64_mingw]
+  gem 'rbs', '~> 3.1', require: false
 
   gem 'factory_bot_rails', '~> 6.2'
   gem 'rspec-mocks', '~> 3.12'
