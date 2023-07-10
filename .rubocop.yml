@@ -18,3 +18,8 @@ AllCops:
     - tmp/**/*
     - log/**/*
     - public/**/*
+
+RSpec/NestedGroups:
+  Max: 4
+  Include:
+    - spec/models/*
