@@ -27,7 +27,7 @@ services:
     <<: *app-template
     command: bin/rspec-daemon
     ports:
-      - 3002:3002
+      - ${RSPEC_PORT:-3002}:3002
     environment:
       POSTGRES_HOST: db
       POSTGRES_PASSWORD: password
