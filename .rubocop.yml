@@ -1,0 +1,20 @@
+inherit_gem:
+  rubocop-config-timedia:
+    - config/base.yml
+    - config/rails.yml
+    - config/rspec.yml
+    - config/factory_bot.yml
+
+AllCops:
+  NewCops: disable
+  TargetRubyVersion: 3.2
+  Exclude:
+    - .irbrc
+    - bin/**/*
+    - config/*
+    - config/environments/*
+    - db/**/*
+    - vendor/**/*
+    - tmp/**/*
+    - log/**/*
+    - public/**/*
