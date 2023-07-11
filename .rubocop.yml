@@ -21,3 +21,11 @@ AllCops:
     - tmp/**/*
     - log/**/*
     - public/**/*
+
+Style/EmptyMethod:
+  EnforcedStyle: expanded
+
+RSpec/NestedGroups:
+  Max: 4
+  Include:
+    - spec/models/*
