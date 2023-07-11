@@ -36,3 +36,8 @@ end
 group :development do
   gem 'rspec-daemon', '~> 0.1', require: false
 end
+
+group :test do
+  gem 'capybara', '~> 3.39'
+  gem 'selenium-webdriver', '~> 4.10'
+end
