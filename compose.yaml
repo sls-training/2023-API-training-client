@@ -13,6 +13,7 @@ services:
     ports:
       - "${APP_PORT:-3000}:3000"
     environment:
+      API_ENDPOINT_URL:
       POSTGRES_HOST: db
       POSTGRES_PASSWORD: password
       POSTGRES_USER: root
