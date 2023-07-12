@@ -97,4 +97,10 @@ RSpec.configure do |config|
   config.before :each, type: :system do
     driven_by :rack_test
   end
+
+  config.define_derived_metadata do |meta|
+    # デフォルトで aggregate_failures を有効化する。
+    # 無効化したい場合は、タグに aggregate_failures: false のように設定する。
+    meta[:aggregate_failures] = true if meta.fetch :aggregate_failures, true
+  end
 end
