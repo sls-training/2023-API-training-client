@@ -25,6 +25,7 @@ group :development, :test do
 
   gem 'rubocop', '~> 1.51', require: false
   gem 'rubocop-config-timedia', github: 'timedia/styleguide', glob: 'ruby/**/*.gemspec', require: false
+  gem 'rubocop-erb', '~> 0.2.4', require: false
   gem 'rubocop-factory_bot', '~> 2.23', require: false
   gem 'rubocop-performance', '~> 1.18', require: false
   gem 'rubocop-rails', '~> 2.20', require: false
