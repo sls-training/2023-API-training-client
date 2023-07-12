@@ -2,6 +2,6 @@
 
 module Api
   class User < Flexirest::Base
-    post :create, 'user'
+    post :create, '/user'
   end
 end
