@@ -139,6 +139,7 @@ GEM
       multi_json
     globalid (1.1.0)
       activesupport (>= 5.0)
+    hashdiff (1.0.1)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
     io-console (0.6.0)
@@ -298,6 +299,10 @@ GEM
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.4.2)
+    webmock (3.18.1)
+      addressable (>= 2.8.0)
+      crack (>= 0.3.2)
+      hashdiff (>= 0.4.0, < 2.0.0)
     websocket (1.2.9)
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
@@ -335,6 +340,7 @@ DEPENDENCIES
   rubocop-rspec (~> 2.22)
   selenium-webdriver (~> 4.10)
   tzinfo-data
+  webmock (~> 3.18)
 
 RUBY VERSION
    ruby 3.2.2p53
