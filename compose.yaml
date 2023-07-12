@@ -30,6 +30,7 @@ services:
     ports:
       - ${RSPEC_PORT:-3002}:3002
     environment:
+      API_ENDPOINT_URL:
       POSTGRES_HOST: db
       POSTGRES_PASSWORD: password
       POSTGRES_USER: root
