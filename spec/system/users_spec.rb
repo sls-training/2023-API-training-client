@@ -80,6 +80,39 @@ RSpec.describe 'Users', type: :system do
     end
   end
 
+  describe 'パスワードがパスワードの確認と一致しないとき' do
+    subject do
+      visit signup_url
+
+      fill_in 'Name', with: Faker::Name.name
+      fill_in 'Email', with: Faker::Internet.email
+      fill_in 'Password', with: Faker::Internet.password
+      fill_in 'Password confirmation', with: Faker::Internet.password
+      click_button 'Sign up'
+
+      page
+    end
+
+    before do
+      WebMock.stub_request(:post, File.join(Api::User.base_url, 'user')).to_return status: 200
+    end
+
+    it 'サインアップ用のページを表示する' do
+      subject
+
+      expect(page).to have_field 'Name'
+      expect(page).to have_field 'Email'
+      expect(page).to have_field 'Password'
+      expect(page).to have_field 'Password confirmation'
+    end
+
+    it 'パスワードがパスワードの確認と一致しない旨のバリデーションエラーが表示される' do
+      subject
+
+      expect(page).to have_content "password_confirmation doesn't match with password"
+    end
+  end
+
   context 'クラインアントエラー以外のエラーが発生したとき' do
     subject do
       visit signup_url
