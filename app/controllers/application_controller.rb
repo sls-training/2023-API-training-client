@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
-  rescue_from StandardError, with: :render_internal_server_error
-
   private
 
   def render_internal_server_error
