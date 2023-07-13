@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Users', type: :system do
+RSpec.describe 'User Creation', type: :system do
   context 'APIサーバ上のユーザアカウントの作成に成功したとき' do
     subject do
       visit signup_url
