@@ -14,6 +14,8 @@ class UsersController < ApplicationController
   rescue Flexirest::HTTPClientException => e
     @errors = e.result.errors
     render 'new', status: :unprocessable_entity
+  rescue Flexirest::HTTPServerException, Flexirest::TimeoutException, Flexirest::ConnectionFailedException
+    render_internal_server_error
   end
 
   private
