@@ -36,7 +36,7 @@ RSpec.describe 'Users', type: :system do
     end
   end
 
-  describe 'リクエストのパラメータが不正であるとき' do
+  context 'リクエストのパラメータが不正であるとき' do
     subject do
       visit signup_url
 
@@ -80,7 +80,7 @@ RSpec.describe 'Users', type: :system do
     end
   end
 
-  describe 'パスワードがパスワードの確認と一致しないとき' do
+  context 'パスワードがパスワードの確認と一致しないとき' do
     subject do
       visit signup_url
 
