@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'User Creation', type: :system do
   subject do
-    visit signup_url
+    visit new_user_url
 
     fill_in 'Name', with: name
     fill_in 'Email', with: email
