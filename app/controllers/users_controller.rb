@@ -10,7 +10,7 @@ class UsersController < ApplicationController
     Api::User.create user_params
 
     flash[:success] = 'Your user account was created successfully'
-    redirect_to login_url, status: :see_other
+    redirect_to new_session_path, status: :see_other
   rescue Flexirest::HTTPClientException => e
     @errors = e.result.errors
     render 'new', status: :unprocessable_entity

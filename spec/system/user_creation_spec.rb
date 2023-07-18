@@ -32,7 +32,7 @@ RSpec.describe 'User Creation', type: :system do
       end
 
       it 'ログイン用のURLにリダイレクトする' do
-        expect(subject).to have_current_path login_path
+        expect(subject).to have_current_path new_session_path
       end
 
       it 'ユーザの作成に成功した旨を示すメッセージが表示される' do
