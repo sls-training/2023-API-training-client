@@ -109,9 +109,7 @@ RSpec.describe 'User Creation', type: :system do
       end
 
       it 'パスワードがパスワードの確認と一致しない旨のバリデーションエラーが表示される' do
-        subject
-
-        expect(page).to have_content "password_confirmation doesn't match with password"
+        expect(subject).to have_content "password_confirmation doesn't match with password"
       end
     end
   end
