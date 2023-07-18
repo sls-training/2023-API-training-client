@@ -95,10 +95,6 @@ RSpec.describe 'User Creation', type: :system do
     context 'パスワードがパスワードの確認と一致しないとき' do
       let(:password_confirmation) { Faker::Internet.password }
 
-      before do
-        WebMock.stub_request(:post, File.join(Api::User.base_url, 'user')).to_return status: 200
-      end
-
       it 'サインアップ用のページを表示する' do
         subject
 
