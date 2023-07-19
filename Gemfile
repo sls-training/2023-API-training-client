@@ -7,6 +7,7 @@ ruby '3.2.2'
 
 gem 'rails', '~> 7.0.6'
 
+gem 'flexirest', '~> 1.11'
 gem 'pg', '~> 1.5'
 gem 'puma', '~> 6.3'
 
@@ -15,6 +16,7 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 group :development, :test do
   gem 'brakeman', '~> 6.0', require: false
   gem 'debug', platforms: %i[mri mingw x64_mingw]
+  gem 'faker', '~> 3.2'
   gem 'katakata_irb', github: 'tompng/katakata_irb', require: false
   gem 'rbs', '~> 3.1', require: false
   gem 'rbs_rails', '~> 0.12', require: false
@@ -34,4 +36,10 @@ end
 
 group :development do
   gem 'rspec-daemon', '~> 0.1', require: false
+end
+
+group :test do
+  gem 'capybara', '~> 3.39'
+  gem 'selenium-webdriver', '~> 4.10'
+  gem 'webmock', '~> 3.18'
 end

@@ -21,3 +21,15 @@ AllCops:
     - tmp/**/*
     - log/**/*
     - public/**/*
+
+Style/EmptyMethod:
+  EnforcedStyle: expanded
+
+# aggregate_failures をデフォルトで有効化するため、一つのexampleに複数のexpectationを記述することを許容する。
+RSpec/MultipleExpectations:
+  Max: 10
+
+RSpec/NestedGroups:
+  Max: 4
+  Include:
+    - spec/models/*

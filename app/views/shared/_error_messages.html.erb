@@ -1,0 +1,9 @@
+<% if errors&.any? %>
+  <div>
+    <ul>
+      <% errors.each do |h| %>
+        <li><%= "#{h['name']} #{h['reason']}" %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
