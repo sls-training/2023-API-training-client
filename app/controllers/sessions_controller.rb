@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class SessionsController < ApplicationController
-  before_action :logged_in_user
+  before_action :require_not_logged_in
 
   def new
   end
@@ -31,7 +31,11 @@ class SessionsController < ApplicationController
     params.permit :email, :password
   end
 
-  def logged_in_user
-    redirect_to files_path if session[:access_token].present?
+  def require_not_logged_in
+    redirect_to files_path if logged_in?
+  end
+
+  def logged_in?
+    session[:access_token].present?
   end
 end
