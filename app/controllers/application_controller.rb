@@ -10,8 +10,8 @@ class ApplicationController < ActionController::Base
 
   # #reset_session と異なりセッションIDのみをリセットする。
   def reset_session_id
-    except_session_id = session.to_h
+    original_session = session.to_h
     reset_session
-    session.update except_session_id
+    session.update original_session
   end
 end
