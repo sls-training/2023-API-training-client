@@ -21,11 +21,11 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit :name, :email, :password
+    params.permit :name, :email, :password
   end
 
   def confirm_password
-    return if params.dig(:user, :password) == params.dig(:user, :password_confirmation)
+    return if params[:password] == params[:password_confirmation]
 
     @errors = [{ 'name' => 'password_confirmation', 'reason' => "doesn't match with password" }]
     render 'new', status: :unprocessable_entity
