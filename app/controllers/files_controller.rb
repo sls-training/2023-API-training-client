@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class FilesController < ApplicationController
-  include Sessions
+  include Authenticatable
 
   def index
     # TODO: Implement the main logic.

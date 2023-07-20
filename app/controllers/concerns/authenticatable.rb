@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Sessions
+module Authenticatable
   def login(access_token)
     session[:access_token] = access_token
   end

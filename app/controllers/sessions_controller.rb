@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class SessionsController < ApplicationController
-  include Sessions
+  include Authenticatable
 
   before_action :require_not_logged_in
 
