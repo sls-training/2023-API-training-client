@@ -5,8 +5,6 @@ class FilesController < ApplicationController
 
   def index
     # TODO: Implement the main logic.
-    reset_session_id
-
     Api::Files.all({ access_token: current_access_token })
   rescue Flexirest::HTTPClientException
     # TODO: Implement more accurate error handlings.

@@ -2,11 +2,12 @@
 
 module Authenticatable
   def login(access_token)
+    reset_session
     session[:access_token] = access_token
   end
 
   def logout
-    session.delete :access_token
+    reset_session
   end
 
   def logged_in?
