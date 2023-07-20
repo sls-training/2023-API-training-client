@@ -20,7 +20,7 @@ RSpec.describe 'Session Creation', type: :system do
     context 'フォームへの入力が全て正当であるとき' do
       context 'APIサーバから成功レスポンスが返ってきたとき' do
         before do
-          WebMock.stub_request(:post, "#{Api::User.base_url}/signin")
+          WebMock.stub_request(:post, File.join(Api::User.base_url, 'signin'))
             .to_return(
               body:    {
                 access_token: 'some_token',
@@ -29,7 +29,7 @@ RSpec.describe 'Session Creation', type: :system do
               status:  200,
               headers: { 'Content-Type' => 'application/json' }
             )
-          WebMock.stub_request(:get, "#{Api::User.base_url}/files").to_return(
+          WebMock.stub_request(:get, File.join(Api::User.base_url, 'files')).to_return(
             body:    '{}',
             status:  200,
             headers: { 'Content-Type' => 'application/json' }
@@ -47,8 +47,8 @@ RSpec.describe 'Session Creation', type: :system do
 
       context 'APIサーバからエラーレスポンスが返ってきたとき' do
         before do
-          WebMock.stub_request(:post, "#{Api::User.base_url}/signin").to_return status: 500
-          WebMock.stub_request(:get, "#{Api::User.base_url}/files").to_return(
+          WebMock.stub_request(:post, File.join(Api::User.base_url, 'signin')).to_return status: 500
+          WebMock.stub_request(:get, File.join(Api::User.base_url, 'files')).to_return(
             body:    '{}',
             status:  200,
             headers: { 'Content-Type' => 'application/json' }
@@ -67,7 +67,7 @@ RSpec.describe 'Session Creation', type: :system do
         let(:password) { nil }
 
         before do
-          WebMock.stub_request(:post, "#{Api::User.base_url}/signin").to_return(
+          WebMock.stub_request(:post, File.join(Api::User.base_url, 'signin')).to_return(
             body:    {
               status: 400,
               title:  'Bad Request',
@@ -106,7 +106,7 @@ RSpec.describe 'Session Creation', type: :system do
 
     context 'セッションが無効であるとき' do
       before do
-        WebMock.stub_request(:post, "#{Api::User.base_url}/signin").to_return(
+        WebMock.stub_request(:post, File.join(Api::User.base_url, 'signin')).to_return(
           body:    {
             access_token: 'some_token',
             token_type:   'bearer'
@@ -114,7 +114,7 @@ RSpec.describe 'Session Creation', type: :system do
           status:  200,
           headers: { 'Content-Type' => 'application/json' }
         )
-        WebMock.stub_request(:get, "#{Api::User.base_url}/files").to_return(
+        WebMock.stub_request(:get, File.join(Api::User.base_url, 'files')).to_return(
           body:    {
             status: 401,
             title:  'Unauthorized',
@@ -138,7 +138,7 @@ RSpec.describe 'Session Creation', type: :system do
 
     context 'セッションが有効であるとき' do
       before do
-        WebMock.stub_request(:post, "#{Api::User.base_url}/signin").to_return(
+        WebMock.stub_request(:post, File.join(Api::User.base_url, 'signin')).to_return(
           body:    {
             access_token: 'some_token',
             token_type:   'bearer'
@@ -146,7 +146,7 @@ RSpec.describe 'Session Creation', type: :system do
           status:  200,
           headers: { 'Content-Type' => 'application/json' }
         )
-        WebMock.stub_request(:get, "#{Api::User.base_url}/files").to_return(
+        WebMock.stub_request(:get, File.join(Api::User.base_url, 'files')).to_return(
           body:    '{}',
           status:  200,
           headers: { 'Content-Type' => 'application/json' }
