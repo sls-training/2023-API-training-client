@@ -20,15 +20,14 @@ RSpec.describe 'Session Creation', type: :system do
     context 'フォームへの入力が全て正当であるとき' do
       context 'APIサーバから成功レスポンスが返ってきたとき' do
         before do
-          WebMock.stub_request(:post, File.join(Api::User.base_url, 'signin'))
-            .to_return(
-              body:    {
-                access_token: 'some_token',
-                token_type:   'bearer'
-              }.to_json,
-              status:  200,
-              headers: { 'Content-Type' => 'application/json' }
-            )
+          WebMock.stub_request(:post, File.join(Api::User.base_url, 'signin')).to_return(
+            body:    {
+              access_token: 'some_token',
+              token_type:   'bearer'
+            }.to_json,
+            status:  200,
+            headers: { 'Content-Type' => 'application/json' }
+          )
           WebMock.stub_request(:get, File.join(Api::User.base_url, 'files')).to_return(
             body:    '{}',
             status:  200,
