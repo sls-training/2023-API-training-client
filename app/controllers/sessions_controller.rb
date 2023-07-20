@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class SessionsController < ApplicationController
+  include Sessions
+
   before_action :require_not_logged_in
 
   def new
@@ -11,7 +13,7 @@ class SessionsController < ApplicationController
                                          .transform_keys { |k| k == :email ? :username : k }
                                          .merge(grant_type: 'password', scope: 'READ WRITE')
 
-    session[:access_token] = response.access_token
+    login response.access_token
     flash[:success] = 'You logged in successfully'
     redirect_to files_path, status: :see_other
   rescue Flexirest::HTTPClientException => e
@@ -33,9 +35,5 @@ class SessionsController < ApplicationController
 
   def require_not_logged_in
     redirect_to files_path if logged_in?
-  end
-
-  def logged_in?
-    session[:access_token].present?
   end
 end
