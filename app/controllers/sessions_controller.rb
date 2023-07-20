@@ -28,7 +28,7 @@ class SessionsController < ApplicationController
   private
 
   def access_token_params
-    params.require(:access_token).permit :email, :password
+    params.permit :email, :password
   end
 
   def logged_in_user
