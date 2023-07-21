@@ -9,10 +9,13 @@ class FilesController < ApplicationController
     response = Api::Files.all access_token: current_access_token
 
     @files = response[:files]
-  rescue Flexirest::HTTPClientException
-    # TODO: Implement more accurate error handlings.
-    logout
-    redirect_to new_session_path, status: :see_other
+  rescue Flexirest::HTTPClientException => e
+    if e.status == 401 && e.result&.error == 'invalid_token'
+      logout
+      redirect_to new_session_path, status: :see_other
+    else
+      render_internal_server_error
+    end
   rescue Flexirest::HTTPServerException, Flexirest::TimeoutException, Flexirest::ConnectionFailedException
     render_internal_server_error
   end
