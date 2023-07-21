@@ -99,7 +99,7 @@ RSpec.describe 'Session Creation', type: :system do
               body:    {
                 status: 400,
                 title:  'Bad Request',
-                error:  'invalid_request'
+                error:  'invalid_grant'
               }.to_json,
               status:  400,
               headers: { 'Content-Type' => 'application/problem+json' }

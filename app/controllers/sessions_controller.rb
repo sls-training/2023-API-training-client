@@ -15,7 +15,7 @@ class SessionsController < ApplicationController
     flash[:success] = 'You logged in successfully'
     redirect_to files_path, status: :see_other
   rescue Flexirest::HTTPClientException => e
-    if e.result.error == 'invalid_request'
+    if e.result.error == 'invalid_grant'
       @errors = [{ 'name' => 'email, password or both', 'reason' => 'are invalid' }]
       render 'new', status: :unprocessable_entity
     else
