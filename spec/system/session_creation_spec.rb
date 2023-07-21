@@ -16,23 +16,39 @@ RSpec.describe 'Session Creation', type: :system do
 
     let(:email) { Faker::Internet.email }
     let(:password) { Faker::Internet.password }
+    let(:access_token) { Faker::Alphanumeric.alphanumeric }
 
     context 'フォームへの入力が全て正当であるとき' do
       context 'APIサーバから成功レスポンスが返ってきたとき' do
         before do
-          WebMock.stub_request(:post, File.join(Api::User.base_url, 'signin')).to_return(
-            body:    {
-              access_token: 'some_token',
-              token_type:   'bearer'
-            }.to_json,
-            status:  200,
-            headers: { 'Content-Type' => 'application/json' }
-          )
-          WebMock.stub_request(:get, File.join(Api::User.base_url, 'files')).to_return(
-            body:    '{}',
-            status:  200,
-            headers: { 'Content-Type' => 'application/json' }
-          )
+          WebMock.stub_request(:post, File.join(Api::User.base_url, 'signin'))
+            .with(
+              body: {
+                grant_type: 'password',
+                password:,
+                scope:      'READ WRITE',
+                username:   email
+              }
+            )
+            .to_return(
+              body:    {
+                access_token:,
+                token_type:   'bearer'
+              }.to_json,
+              status:  200,
+              headers: { 'Content-Type' => 'application/json' }
+            )
+          WebMock.stub_request(:get, File.join(Api::User.base_url, 'files'))
+            .with(
+              headers: {
+                Authorization: "Bearer #{access_token}"
+              }
+            )
+            .to_return(
+              body:    '{}',
+              status:  200,
+              headers: { 'Content-Type' => 'application/json' }
+            )
         end
 
         it 'ファイル一覧表示用のURLにリダイレクトする' do
@@ -46,7 +62,16 @@ RSpec.describe 'Session Creation', type: :system do
 
       context 'APIサーバからエラーレスポンスが返ってきたとき' do
         before do
-          WebMock.stub_request(:post, File.join(Api::User.base_url, 'signin')).to_return status: 500
+          WebMock.stub_request(:post, File.join(Api::User.base_url, 'signin'))
+            .with(
+              body: {
+                grant_type: 'password',
+                password:,
+                scope:      'READ WRITE',
+                username:   email
+              }
+            )
+            .to_return status: 500
         end
 
         it '500エラー用のページを表示する' do
@@ -56,20 +81,29 @@ RSpec.describe 'Session Creation', type: :system do
     end
 
     context 'フォームへの入力に不正があるとき' do
-      context '各フォームへの入力が空であるとき' do
-        let(:email) { nil }
-        let(:password) { nil }
+      context '各フォームへの入力が空文字列であるとき' do
+        let(:email) { '' }
+        let(:password) { '' }
 
         before do
-          WebMock.stub_request(:post, File.join(Api::User.base_url, 'signin')).to_return(
-            body:    {
-              status: 400,
-              title:  'Bad Request',
-              error:  'invalid_request'
-            }.to_json,
-            status:  400,
-            headers: { 'Content-Type' => 'application/problem+json' }
-          )
+          WebMock.stub_request(:post, File.join(Api::User.base_url, 'signin'))
+            .with(
+              body: {
+                grant_type: 'password',
+                password:,
+                scope:      'READ WRITE',
+                username:   email
+              }
+            )
+            .to_return(
+              body:    {
+                status: 400,
+                title:  'Bad Request',
+                error:  'invalid_request'
+              }.to_json,
+              status:  400,
+              headers: { 'Content-Type' => 'application/problem+json' }
+            )
         end
 
         it 'サインイン用のページを表示する' do
@@ -93,30 +127,49 @@ RSpec.describe 'Session Creation', type: :system do
       page
     end
 
+    let(:email) { Faker::Internet.email }
+    let(:password) { Faker::Internet.password }
+    let(:access_token) { Faker::Alphanumeric.alphanumeric }
+
     context 'セッションが無効であるとき' do
       before do
-        WebMock.stub_request(:post, File.join(Api::User.base_url, 'signin')).to_return(
-          body:    {
-            access_token: 'some_token',
-            token_type:   'bearer'
-          }.to_json,
-          status:  200,
-          headers: { 'Content-Type' => 'application/json' }
-        )
-        WebMock.stub_request(:get, File.join(Api::User.base_url, 'files')).to_return(
-          body:    {
-            status: 401,
-            title:  'Unauthorized',
-            error:  'invalid_token'
-          }.to_json,
-          status:  401,
-          headers: { 'Content-Type' => 'application/problem+json' }
-        )
+        WebMock.stub_request(:post, File.join(Api::User.base_url, 'signin'))
+          .with(
+            body: {
+              grant_type: 'password',
+              password:,
+              scope:      'READ WRITE',
+              username:   email
+            }
+          )
+          .to_return(
+            body:    {
+              access_token:,
+              token_type:   'bearer'
+            }.to_json,
+            status:  200,
+            headers: { 'Content-Type' => 'application/json' }
+          )
+        WebMock.stub_request(:get, File.join(Api::User.base_url, 'files'))
+          .with(
+            headers: {
+              Authorization: "Bearer #{access_token}"
+            }
+          )
+          .to_return(
+            body:    {
+              status: 401,
+              title:  'Unauthorized',
+              error:  'invalid_token'
+            }.to_json,
+            status:  401,
+            headers: { 'Content-Type' => 'application/problem+json' }
+          )
 
         visit new_session_url
 
-        fill_in 'Email', with: Faker::Internet.email
-        fill_in 'Password', with: Faker::Internet.password
+        fill_in 'Email', with: email
+        fill_in 'Password', with: password
         click_button 'Log in'
       end
 
@@ -127,24 +180,39 @@ RSpec.describe 'Session Creation', type: :system do
 
     context 'セッションが有効であるとき' do
       before do
-        WebMock.stub_request(:post, File.join(Api::User.base_url, 'signin')).to_return(
-          body:    {
-            access_token: 'some_token',
-            token_type:   'bearer'
-          }.to_json,
-          status:  200,
-          headers: { 'Content-Type' => 'application/json' }
-        )
-        WebMock.stub_request(:get, File.join(Api::User.base_url, 'files')).to_return(
-          body:    '{}',
-          status:  200,
-          headers: { 'Content-Type' => 'application/json' }
-        )
+        WebMock.stub_request(:post, File.join(Api::User.base_url, 'signin'))
+          .with(
+            body: {
+              grant_type: 'password',
+              password:,
+              scope:      'READ WRITE',
+              username:   email
+            }
+          )
+          .to_return(
+            body:    {
+              access_token:,
+              token_type:   'bearer'
+            }.to_json,
+            status:  200,
+            headers: { 'Content-Type' => 'application/json' }
+          )
+        WebMock.stub_request(:get, File.join(Api::User.base_url, 'files'))
+          .with(
+            headers: {
+              Authorization: "Bearer #{access_token}"
+            }
+          )
+          .to_return(
+            body:    '{}',
+            status:  200,
+            headers: { 'Content-Type' => 'application/json' }
+          )
 
         visit new_session_url
 
-        fill_in 'Email', with: Faker::Internet.email
-        fill_in 'Password', with: Faker::Internet.password
+        fill_in 'Email', with: email
+        fill_in 'Password', with: password
         click_button 'Log in'
       end
 
