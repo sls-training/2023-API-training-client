@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
   end
 
   def create
-    response = Api::AccessToken.create access_token_params.merge(grant_type: 'password', scope: 'READ WRITE')
+    response = Api::AccessToken.create access_token_params
 
     login response.access_token
     flash[:success] = 'You logged in successfully'
