@@ -9,9 +9,7 @@ class SessionsController < ApplicationController
   end
 
   def create
-    response = Api::AccessToken.create access_token_params
-                                         .transform_keys { |k| k == :email ? :username : k }
-                                         .merge(grant_type: 'password', scope: 'READ WRITE')
+    response = Api::AccessToken.create access_token_params.merge(grant_type: 'password', scope: 'READ WRITE')
 
     login response.access_token
     flash[:success] = 'You logged in successfully'
@@ -30,7 +28,7 @@ class SessionsController < ApplicationController
   private
 
   def access_token_params
-    params.permit :email, :password
+    params.permit :username, :password
   end
 
   def require_not_logged_in

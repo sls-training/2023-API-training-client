@@ -1,8 +1,8 @@
 <%= form_with url: sessions_path do |f| %>
   <%= render 'shared/error_messages', errors: @errors %>
 
-  <%= f.label :email %>
-  <%= f.email_field :email %>
+  <%= f.label :username, 'Email' %>
+  <%= f.email_field :username %>
 
   <%= f.label :password %>
   <%= f.password_field :password %>
