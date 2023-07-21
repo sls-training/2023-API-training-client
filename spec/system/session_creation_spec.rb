@@ -81,10 +81,7 @@ RSpec.describe 'Session Creation', type: :system do
     end
 
     context 'フォームへの入力に不正があるとき' do
-      context '各フォームへの入力が空文字列であるとき' do
-        let(:email) { '' }
-        let(:password) { '' }
-
+      context '各フォームへの入力が不正なROPCグラント(メールアドレス、パスワード)であるとき' do
         before do
           WebMock.stub_request(:post, File.join(Api::User.base_url, 'signin'))
             .with(
