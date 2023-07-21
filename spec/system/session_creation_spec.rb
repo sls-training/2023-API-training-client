@@ -47,11 +47,6 @@ RSpec.describe 'Session Creation', type: :system do
       context 'APIサーバからエラーレスポンスが返ってきたとき' do
         before do
           WebMock.stub_request(:post, File.join(Api::User.base_url, 'signin')).to_return status: 500
-          WebMock.stub_request(:get, File.join(Api::User.base_url, 'files')).to_return(
-            body:    '{}',
-            status:  200,
-            headers: { 'Content-Type' => 'application/json' }
-          )
         end
 
         it '500エラー用のページを表示する' do
@@ -74,11 +69,6 @@ RSpec.describe 'Session Creation', type: :system do
             }.to_json,
             status:  400,
             headers: { 'Content-Type' => 'application/problem+json' }
-          )
-          WebMock.stub_request(:get, "#{Api::User.base_url}/files").to_return(
-            body:    '{}',
-            status:  200,
-            headers: { 'Content-Type' => 'application/json' }
           )
         end
 
