@@ -6,9 +6,9 @@ class FilesController < ApplicationController
   before_action :require_login
 
   def index
-    response = Api::Files.all access_token: current_access_token
+    index_files_response = Api::Files.all access_token: current_access_token
 
-    @files = response[:files]
+    @files = index_files_response[:files]
   rescue Flexirest::HTTPClientException => e
     if e.status == 401 && e.result&.error == 'invalid_token'
       logout
