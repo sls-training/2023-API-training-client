@@ -2,13 +2,15 @@
 
 class FilesController < ApplicationController
   include Authenticatable
+  include Paginatable
 
   before_action :require_login
 
   def index
-    index_files_response = Api::Files.all access_token: current_access_token
+    index_files_response = Api::Files.all access_token: current_access_token, **index_files_params
 
     @files = index_files_response[:files]
+    @pagination_metadata = pagination_metadata index_files_response._headers
   rescue Flexirest::HTTPClientException => e
     if e.status == 401 && e.result&.error == 'invalid_token'
       logout
@@ -22,7 +24,20 @@ class FilesController < ApplicationController
 
   private
 
+  def index_files_params
+    params.permit :page
+  end
+
   def require_login
     redirect_to new_session_path unless logged_in?
+  end
+
+  def pagination_metadata(headers)
+    {
+      links: pagination_links(headers['Link'], base: Api::Files.base_url),
+      page:  headers['Page'].to_i,
+      per:   headers['Per'].to_i,
+      total: headers['Total'].to_i
+    }
   end
 end

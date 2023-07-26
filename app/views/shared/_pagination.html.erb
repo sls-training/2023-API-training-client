@@ -1,0 +1,17 @@
+<div>
+  <% if links[:first].present? %>
+    <%= link_to 'First', links[:first] %>
+  <% end %>
+
+  <% if links[:prev].present? %>
+    <%= link_to 'Prev', links[:prev] %>
+  <% end %>
+
+  <% if links[:next].present? %>
+    <%= link_to 'Next', links[:next] %>
+  <% end %>
+
+  <% if links[:last].present? %>
+    <%= link_to 'Last', links[:last] %>
+  <% end %>
+</div
