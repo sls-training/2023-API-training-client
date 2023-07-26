@@ -18,16 +18,31 @@ RSpec.describe 'Files Index', type: :system do
   context 'ログイン済みであるとき' do
     let(:access_token) { Faker::Alphanumeric.alphanumeric }
 
+    before do
+      WebMock.stub_request(:post, File.join(Api::User.base_url, 'signin')).to_return(
+        body:    {
+          access_token:,
+          token_type:   'bearer'
+        }.to_json,
+        status:  200,
+        headers: { 'Content-Type' => 'application/json' }
+      )
+      WebMock.stub_request(:get, File.join(Api::User.base_url, 'files')).with(
+        headers: {
+          Authorization: "Bearer #{access_token}"
+        }
+      )
+
+      visit new_session_url
+
+      fill_in 'Email', with: Faker::Internet.email
+      fill_in 'Password', with: Faker::Internet.password
+
+      click_button 'Log in'
+    end
+
     context 'セッションが無効であるとき' do
       before do
-        WebMock.stub_request(:post, File.join(Api::User.base_url, 'signin')).to_return(
-          body:    {
-            access_token:,
-            token_type:   'bearer'
-          }.to_json,
-          status:  200,
-          headers: { 'Content-Type' => 'application/json' }
-        )
         WebMock.stub_request(:get, File.join(Api::User.base_url, 'files'))
           .with(
             headers: {
@@ -43,13 +58,6 @@ RSpec.describe 'Files Index', type: :system do
             status:  401,
             headers: { 'Content-Type' => 'application/json' }
           )
-
-        visit new_session_url
-
-        fill_in 'Email', with: Faker::Internet.email
-        fill_in 'Password', with: Faker::Internet.password
-
-        click_button 'Log in'
       end
 
       it 'ログインページにリダイレクトする' do
@@ -80,14 +88,6 @@ RSpec.describe 'Files Index', type: :system do
         end
 
         before do
-          WebMock.stub_request(:post, File.join(Api::User.base_url, 'signin')).to_return(
-            body:    {
-              access_token:,
-              token_type:   'bearer'
-            }.to_json,
-            status:  200,
-            headers: { 'Content-Type' => 'application/json' }
-          )
           WebMock.stub_request(:get, File.join(Api::User.base_url, 'files'))
             .with(
               headers: {
@@ -99,13 +99,6 @@ RSpec.describe 'Files Index', type: :system do
               status:  200,
               headers: { 'Content-Type' => 'application/json' }
             )
-
-          visit new_session_url
-
-          fill_in 'Email', with: Faker::Internet.email
-          fill_in 'Password', with: Faker::Internet.password
-
-          click_button 'Log in'
         end
 
         it 'ファイル一覧が表示される' do
@@ -118,14 +111,6 @@ RSpec.describe 'Files Index', type: :system do
 
       context 'APIサーバからエラーレスポンスが返ってきたとき' do
         before do
-          WebMock.stub_request(:post, File.join(Api::User.base_url, 'signin')).to_return(
-            body:    {
-              access_token:,
-              token_type:   'bearer'
-            }.to_json,
-            status:  200,
-            headers: { 'Content-Type' => 'application/json' }
-          )
           WebMock.stub_request(:get, File.join(Api::User.base_url, 'files'))
             .with(
               headers: {
@@ -137,13 +122,6 @@ RSpec.describe 'Files Index', type: :system do
               status:  500,
               headers: { 'Content-Type' => 'application/json' }
             )
-
-          visit new_session_url
-
-          fill_in 'Email', with: Faker::Internet.email
-          fill_in 'Password', with: Faker::Internet.password
-
-          click_button 'Log in'
         end
 
         it '500用のページが表示される' do
