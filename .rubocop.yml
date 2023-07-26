@@ -22,6 +22,13 @@ AllCops:
     - log/**/*
     - public/**/*
 
+Metrics/MethodLength:
+  Max: 15
+  CountAsOne:
+    - 'array'
+    - 'heredoc'
+    - 'method_call'
+
 Style/EmptyMethod:
   EnforcedStyle: expanded
 
