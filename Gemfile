@@ -9,6 +9,7 @@ gem 'rails', '~> 7.0.6'
 
 gem 'activerecord-session_store', '~> 2.0'
 gem 'flexirest', '~> 1.11'
+gem 'link-header-parser', '~> 5.0'
 gem 'pg', '~> 1.5'
 gem 'puma', '~> 6.3'
 
