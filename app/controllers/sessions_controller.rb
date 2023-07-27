@@ -14,14 +14,15 @@ class SessionsController < ApplicationController
     login response.access_token
     flash[:success] = 'You logged in successfully'
     redirect_to files_path, status: :see_other
-  rescue Flexirest::HTTPClientException => e
-    if e.status == 400 && e.result.error == 'invalid_grant'
+  rescue Flexirest::HTTPBadRequestClientException => e
+    if e.result.error == 'invalid_grant'
       @errors = [{ 'name' => 'email, password or both', 'reason' => 'are invalid' }]
       render 'new', status: :unprocessable_entity
     else
       render_internal_server_error
     end
-  rescue Flexirest::HTTPServerException, Flexirest::TimeoutException, Flexirest::ConnectionFailedException
+  rescue Flexirest::HTTPClientException, Flexirest::HTTPServerException,
+         Flexirest::TimeoutException, Flexirest::ConnectionFailedException
     render_internal_server_error
   end
 
