@@ -11,14 +11,11 @@ class FilesController < ApplicationController
 
     @files = index_files_response[:files]
     @pagination_metadata = pagination_metadata index_files_response._headers
-  rescue Flexirest::HTTPClientException => e
-    if e.status == 401 && e.result&.error == 'invalid_token'
-      logout
-      redirect_to new_session_path, status: :see_other
-    else
-      render_internal_server_error
-    end
-  rescue Flexirest::HTTPServerException, Flexirest::TimeoutException, Flexirest::ConnectionFailedException
+  rescue Flexirest::HTTPUnauthorisedClientException
+    logout
+    redirect_to new_session_path, status: :see_other
+  rescue Flexirest::HTTPClientException, Flexirest::HTTPServerException,
+         Flexirest::TimeoutException, Flexirest::ConnectionFailedException
     render_internal_server_error
   end
 
