@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module PaginationHelper
-  def pagination_entires_info(**metadata)
+  def pagination_entries_info(**metadata)
     total = metadata[:total]
     page = metadata[:page]
     per = metadata[:per]
